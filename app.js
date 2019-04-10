@@ -4,22 +4,20 @@ let equation = "";
 let buttons = document.querySelectorAll("input[type=button]");
 
 for (let i = 0; i < buttons.length; i++) {
-  if (buttons.item(i).value === "C") {
-    buttons.item(i).addEventListener("click", function () {
-      equation = equation.substr(0, equation.length - 1);
-      outputArea.innerHTML = equation;
-    })
-  } else if (buttons.item(i).value === "AC") {
-    buttons.item(i).addEventListener("click", function () {
-      equation = "";
-      outputArea.innerHTML = equation;
-    })
-  } else {
-    buttons.item(i).addEventListener("click", function () {
-      equation += this.value;
-      outputArea.innerHTML = equation;
-    });
-  }
+  buttons.item(i).addEventListener("click", function () {
+    switch (this.value) {
+      case "C":
+        equation = equation.substr(0, equation.length - 1);
+        break;
+      case "AC":
+        equation = "";
+        break;
+      default:
+        equation += this.value;
+        break;
+    }
+    outputArea.innerHTML = equation;
+  })
 }
 let submit = document.getElementById("submit");
 let result = 0;
@@ -127,9 +125,8 @@ function calculateResult(numbers, operators) {
 
 /**
  *  Mi kell még?
- *  -full delete, backspace
  *  -gyök, négyzetelés, x^y
- *
+ *    -
  *  -Különböző múdok
  */
 function newEquation() {
