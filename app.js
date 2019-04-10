@@ -14,38 +14,41 @@ let submit = document.getElementById("submit");
 let result = 0;
 submit.addEventListener("click", function () {
   if (!newEquation()) {
-    switch (equation.charAt(0)) {
+    let firstChar = equation.charAt(0);
+    let numbersAndOperators = separateNumbersAndOperators(1);
+    switch (firstChar) {
       case "+":
-        result += parseInt(equation.substr(1));
+        result += calculateResult(
+          numbersAndOperators.numbers,
+          numbersAndOperators.operators
+        );
         break;
       case "-":
-        result -= parseInt(equation.substr(1));
+        result -= calculateResult(
+          numbersAndOperators.numbers,
+          numbersAndOperators.operators
+        );
         break;
       case "*":
-        result *= parseInt(equation.substr(1));
+        result *= calculateResult(
+          numbersAndOperators.numbers,
+          numbersAndOperators.operators
+        );
         break;
       case "/":
-        result = result / parseInt(equation.substr(1));
+        result /= calculateResult(
+          numbersAndOperators.numbers,
+          numbersAndOperators.operators
+        );
         break;
-    }
-    equation = equation.substr(1);
-    equation = equation.substr(parseInt(equation).toString().length);
-    let numbersAndOperators = separateNumbersAndOperators();
-    if (calculateResult(numbersAndOperators.numbers, numbersAndOperators.operators) !== undefined) {
-      result += calculateResult(
-        numbersAndOperators.numbers,
-        numbersAndOperators.operators
-      );
     }
   } else {
     result = 0;
-    let numbersAndOperators = separateNumbersAndOperators();
-    if (calculateResult(numbersAndOperators.numbers, numbersAndOperators.operators) !== undefined) {
-      result += calculateResult(
-        numbersAndOperators.numbers,
-        numbersAndOperators.operators
-      );
-    }
+    let numbersAndOperators = separateNumbersAndOperators(0);
+    result += calculateResult(
+      numbersAndOperators.numbers,
+      numbersAndOperators.operators
+    );
   }
   outputArea.innerHTML += "=<br>" + result;
 });
