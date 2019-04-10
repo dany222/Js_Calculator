@@ -4,16 +4,28 @@ let equation = "";
 let buttons = document.querySelectorAll("input[type=button]");
 
 for (let i = 0; i < buttons.length; i++) {
-  buttons.item(i).addEventListener("click", function () {
-    equation += this.value;
-    outputArea.innerHTML = equation;
-  });
+  if (buttons.item(i).value === "C") {
+    buttons.item(i).addEventListener("click", function () {
+      equation = equation.substr(0, equation.length - 1);
+      outputArea.innerHTML = equation;
+    })
+  } else if (buttons.item(i).value === "AC") {
+    buttons.item(i).addEventListener("click", function () {
+      equation = "";
+      outputArea.innerHTML = equation;
+    })
+  } else {
+    buttons.item(i).addEventListener("click", function () {
+      equation += this.value;
+      outputArea.innerHTML = equation;
+    });
+  }
 }
-
 let submit = document.getElementById("submit");
 let result = 0;
 submit.addEventListener("click", function () {
   if (!newEquation()) {
+    //separating will delete this character, we must store it before
     let firstChar = equation.charAt(0);
     let numbersAndOperators = separateNumbersAndOperators(1);
     switch (firstChar) {
@@ -45,7 +57,7 @@ submit.addEventListener("click", function () {
   } else {
     result = 0;
     let numbersAndOperators = separateNumbersAndOperators(0);
-    result += calculateResult(
+    result = calculateResult(
       numbersAndOperators.numbers,
       numbersAndOperators.operators
     );
@@ -115,8 +127,6 @@ function calculateResult(numbers, operators) {
 
 /**
  *  Mi kell még?
-
- *
  *  -full delete, backspace
  *  -gyök, négyzetelés, x^y
  *
